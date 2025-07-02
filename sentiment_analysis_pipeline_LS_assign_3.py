@@ -28,22 +28,22 @@ from transformers import TrainingArguments
 from datasets import load_dataset
 dataset = load_dataset("imdb")
 
-#as the dataset downlaod ad tokenizing took long time i cut it down by 1st tokenising with the below command and saved it in my drive
-# now i am directly using the tokenised dataset which saves 8+ mins runtime of google colab session
-
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-
 def tokenize_function(example):
     return tokenizer(example["text"], truncation=True)
-# tokenizer is need to be defined but tokenizing should not be done as it is the long process and i want to avoid it by directly importing it from drive instead of doing it each time
+#as the dataset tokenizing took long time, and session ranout, i cut it down by 1st tokenising and storing it in drive and then directly using it
+#with the below commented command, i created the tokenised dataset and stored it in my drive and after that following is used to acces my drive 
+# now i am directly using the tokenised dataset which saves the tokenising runtime of google colab session
+
+#command 
 # tokenized_datasets = dataset.map(tokenize_function, batched=True)
 
 # from google.colab import drive
 # drive.mount('/content/drive')
 # from datasets import load_dataset, DatasetDict
-
 # tokenized_datasets.save_to_disk("/content/drive/MyDrive/imdb_dataset")
 
+#this next line makes me access my drive and read the tokenised dataset directly
 from datasets import load_from_disk
 tokenized_datasets = load_from_disk("/content/drive/MyDrive/imdb_dataset")
 
